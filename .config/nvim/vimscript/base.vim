@@ -20,7 +20,7 @@ set nowrap
 set undodir=~/.config/nvim/undodir
 
 set cursorline
-set colorcolumn=80
+set colorcolumn=120
 hi ColorColumn ctermbg=lightred guibg=grey
 
 set clipboard^=unnamed,unnamedplus

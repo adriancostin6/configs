@@ -36,11 +36,20 @@ return require('packer').startup({function()
         config = function() require'setup.lsp.cmp' end
     }
 
+  -- Comments
+  use 'b3nj5m1n/kommentary'
+
   -- Asynchronous
   use { 'skywind3000/asyncrun.vim', config = function() require'setup.asyncrun' end }
 
-  -- Git
-  use 'tpope/vim-fugitive'
+  -- Terminal
+  use 'voldikss/vim-floaterm'
+  use {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require"setup.gitsigns"
+    end
+  }
 
   -- Notes
   use 'vimwiki/vimwiki'

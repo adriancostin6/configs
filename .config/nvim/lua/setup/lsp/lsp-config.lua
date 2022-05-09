@@ -2,6 +2,17 @@ require("nvim-lsp-installer").setup {}
 -- Mappings.
 local opts = { noremap=true, silent=true }
 
+vim.o.updatetime = 500
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})]]
+
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+})
+
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -25,7 +36,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "clangd", "sumneko_lua", "tsserver", "jsonls", "jdtls", "texlab", "cmake", "html", } 
+local servers = { "clangd", "sumneko_lua", "tsserver", "jsonls", "jdtls", "texlab", "cmake", "html", "pyright", }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,

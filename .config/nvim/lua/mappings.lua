@@ -7,11 +7,14 @@ vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files)
 
 -- Telescope file browser
 vim.keymap.set('n', '<leader>e', ':Telescope file_browser path=%:p:h<CR>', { silent = true })
-if vim.fn.has('win32') == nil then
+if vim.fn.has('win32') == 1 then
     vim.keymap.set('n', '<leader>v', ':Telescope file_browser path=~/AppData/Local/nvim/<CR>', { silent = true })
-else 
+else
     vim.keymap.set('n', '<leader>v', ':Telescope file_browser path=~/.config/nvim/<CR>', { silent = true })
 end
+
+-- Git
+vim.keymap.set('n', '<leader>gg', ':FloatermNew --height=0.9 --width=0.9 --cwd=<root> --disposable lazygit<CR>')
 
 -- Telescope project view
 vim.keymap.set('n', '<leader>pp', require('telescope').extensions.projects.projects, { silent = true })
