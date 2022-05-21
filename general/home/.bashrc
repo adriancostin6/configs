@@ -5,6 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+
 # functions
 function check_exist() {
     if ! command -v $1 &> /dev/null
@@ -13,44 +14,25 @@ function check_exist() {
         return 1
     fi
 }
-function gd() {
+
+function search_filesystem() {
     check_exist fzf || return 1
     check_exist fd
 
     if [ $? != 0 ]; then
-        cd $(find -type d | fzf)
+        echo "$(find | fzf)"
     else
-        cd $(fd --type d | fzf)
+        echo "$(fd | fzf)"
     fi
+}
 
+function gd() {
+    cd $(search_filesystem d)
 }
 
 function of() {
-    if [ $# -lt 1 ];then
-        echo "app used to open file not provided"
-        return 1
-    fi
-
-    check_exist fzf || return 1
-    check_exist $1 || return 1
-    check_exist fd
-    if [ $? != 0 ]; then
-        if [ $# -eq 2 ]; then
-            $1 "$(find -type f | rg $2 | fzf)" &> /dev/null
-        else
-            $1 "$(find -type f | fzf)" &> /dev/null
-            
-        fi
-    else
-        if [ $# -eq 2 ]; then
-            $1 "$(fd --type f | rg $2 | fzf)" &> /dev/null
-        else
-            $1 "$(fd --type f | fzf)" &> /dev/null
-            
-        fi
-    fi
+    $1 "$(search_filesystem f)"
 }
-        
 
 # alisases 
 alias ls='ls --color=auto'
@@ -62,10 +44,9 @@ alias hybrid-sleep='systemctl hybrid-sleep'
 alias change-wallpaper='~/src/random/wallpaper.sh'
 alias battery-level='cat /sys/class/power_supply/BAT0/capacity'
 
-# open different types of files
-alias pdf='of zathura .pdf'
-alias pic='of feh ".png|.PNG|.JPEG|.jpeg|.gif|.GIF"'
-alias ed='of neovide'
+alias ed='of "nvim --clean"'
+alias pic='of feh'
+alias pdf='of zathura'
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
